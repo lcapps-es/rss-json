@@ -9,8 +9,10 @@ module.exports.app = app;
 app.set('port', (process.env.PORT || 5000));
 
 app.get('/', function(req, res) {
-  var count = req.query.count || 15;
-  var url = 'https://groups.google.com/forum/feed/cugos/topics/rss.xml?num='+count;
+  if(typeof req.query.rss == 'undefined') {
+    return res.json({message: 'URL not valid'});
+  }
+  var url = req.query.rss;
 
   request(url, function(err, response, body) {
     if (err) {
