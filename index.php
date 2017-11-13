@@ -17,7 +17,7 @@ try {
 
     $feed = $parser->execute();
 
-    echo $feed;
+    echo json_encode($feed);
 }
 catch (Exception $e) {
     // Do something...
