@@ -1,7 +1,7 @@
 var express = require('express');
 var request = require('request');
 var cors = require('cors');
-var xml2js = require('xml2js');
+var Feed = require('rss-to-json');
 
 var app = express();
 app.use(cors());
@@ -14,29 +14,8 @@ app.get('/', function(req, res) {
   }
   var url = req.query.rss;
 
-  request(url, function(err, response, body) {
-    if (err) {
-      res.status(err.code || 400);
-      return res.json({message: 'error fetching url', error: err.message});
-    }
-
-    if (response.statusCode !== 200) {
-      res.status(response.statusCode);
-      return res.json({message: 'unable to fetch url', code: response.statusCode});
-    }
-
-    var parser = new xml2js.Parser({
-      explicitArray: false
-    });
-
-    parser.parseString(body, function (err, result) {
-      if (err) {
-        res.status(err.code || 400);
-        return res.json({message: 'unable to parse XML'});
-      }
-
-      return res.json(result);
-    });
+  Feed.load(url, function(err, rss){
+    return res.json(rss);
   });
 });
 
