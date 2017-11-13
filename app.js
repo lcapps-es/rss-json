@@ -1,22 +1,27 @@
 var express = require('express');
-var request = require('request');
-var cors = require('cors');
+var app = express();
 var Feed = require('rss-to-json');
 
-var app = express();
-app.use(cors());
-module.exports.app = app;
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.set('port', (process.env.PORT || 5000));
 
-app.get('/', function(req, res) {
-  if(typeof req.query.rss == 'undefined') {
-    return res.json({message: 'URL not valid'});
+app.get('/', function(req, res, next) {
+  if (req.query.rss) {
+    Feed.load(req.query.rss, function(err, rss){
+      if (err) {
+        res.send({ 'error': 'An error has occurred' });
+      } else {
+        res.send(rss);
+      }
+    });
+  } else {
+    res.status(400).send({ 'error': 'rss is required' });
   }
-  var url = req.query.rss;
-
-  Feed.load(url, function(err, rss){
-    return res.json(rss);
-  });
 });
 
 app.listen(app.get('port'), function() {

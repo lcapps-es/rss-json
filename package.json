@@ -1,19 +1,16 @@
 {
-  "name": "cugos-feed-api",
-  "version": "0.0.1",
-  "description": "",
+  "name": "node_rss_server",
+  "version": "1.0.0",
+  "description": "A simple server to convert RSS feed into JSON",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Ayush Sharma",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.1",
-    "express": "^4.14.0",
-    "request": "^2.79.0",
-    "xml2js": "^0.4.17",
-    "rss-to-json": "^1.0.3"
+    "express": "4.15.2",
+    "rss-to-json": "1.0.2"
   }
 }
