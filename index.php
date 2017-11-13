@@ -17,6 +17,7 @@ try {
 
     $feed = $parser->execute();
 
+	header('Content-Type: application/json');
     echo json_encode($feed);
 }
 catch (Exception $e) {
